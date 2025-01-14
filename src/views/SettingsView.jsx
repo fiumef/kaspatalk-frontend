@@ -5,6 +5,7 @@ import { GeneralContext} from "../components/ContextProviders/GeneralContextProv
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { Button } from "@mui/material";
+import Root from "../components/Settings/userSettings/Root.jsx";
 
 const SettingsView = () => {
     const { setOpenMenuDrawer} = useContext(GeneralContext);
@@ -22,9 +23,8 @@ const SettingsView = () => {
             <Button sx={{ height: 60}} onClick={() => setOpenMenuDrawer(true)}>
                 <FontAwesomeIcon icon={faBars} />
             </Button>
-            <div>
-                <h3>Settings view</h3>
-            </div>
+
+            <Root></Root>
         </>
     );
 };

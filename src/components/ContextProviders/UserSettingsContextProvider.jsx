@@ -2,13 +2,31 @@ import { createContext } from "react";
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { NETWORK_ID, KASPA_NODE_WRPC } from "../../../userSettings.js";
+import {checkObjectInDb, getKeyValueFromDbObject} from "../../storage/storage.js";
 
 export const UserSettingsContext = createContext();
 
 const UserSettingsContextProvider = ({children}) => {
-  const [networkIdentifier, setNetworkIdentifier] = useState(NETWORK_ID);
-  const [kaspaNodeWrpc, setKaspaNodeWrpc] = useState(KASPA_NODE_WRPC);   
- 
+  const networkRetriever = () => {
+    //first checks if network is in storage
+    if (checkObjectInDb("userSettings", "NETWORK_ID")){
+      return  getKeyValueFromDbObject("userSettings", "NETWORK_ID")
+    }
+    //fallback to usersettings.json
+    return NETWORK_ID
+
+  }
+  const kaspaW_R_C_P_Retriever = () => {
+    if (checkObjectInDb("userSettings", "NETWORK_ID")){
+      return  getKeyValueFromDbObject("userSettings", "NETWORK_ID")
+    }
+    //fallback to usersettings.json
+    return KASPA_NODE_WRPC
+  }
+  const [networkIdentifier, setNetworkIdentifier] = useState(networkRetriever());
+  const [kaspaNodeWrpc, setKaspaNodeWrpc] = useState(kaspaW_R_C_P_Retriever);
+
+//TODO: listen for custom event and upadte settings
   const value = {
     networkIdentifier,
     setNetworkIdentifier,
