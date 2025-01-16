@@ -17,8 +17,8 @@ const UserSettingsContextProvider = ({children}) => {
 
   }
   const kaspaW_R_C_P_Retriever = () => {
-    if (checkObjectInDb("userSettings", "NETWORK_ID")){
-      return  getKeyValueFromDbObject("userSettings", "NETWORK_ID")
+    if (checkObjectInDb("userSettings", "KASPA_NODE_WRPC")){
+      return  getKeyValueFromDbObject("userSettings", "KASPA_NODE_WRPC")
     }
     //fallback to usersettings.json
     return KASPA_NODE_WRPC
@@ -26,7 +26,13 @@ const UserSettingsContextProvider = ({children}) => {
   const [networkIdentifier, setNetworkIdentifier] = useState(networkRetriever());
   const [kaspaNodeWrpc, setKaspaNodeWrpc] = useState(kaspaW_R_C_P_Retriever);
 
-//TODO: listen for custom event and upadte settings
+
+  document.addEventListener("newNetwork",(event) =>{
+    setNetworkIdentifier(event.detail.newNetwork)
+  })
+  document.addEventListener("newAddress",(event) =>{
+    setKaspaNodeWrpc(event.detail.newAddress)
+  })
   const value = {
     networkIdentifier,
     setNetworkIdentifier,

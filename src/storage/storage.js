@@ -54,13 +54,14 @@ export const getObjectFromDb = (keys) => {
     return getItem(keys);
 };
 
-export const getKeyValueFromDbObject = (dictName, key) => {
-    return getItem(dictName)[key];
-}
 
 export const storeObjectInDb = (key, value) => {
     setItem(key, value);
 };
+
+export const getKeyValueFromDbObject = (dictName, key) => {
+    return getItem(dictName)[key];
+}
 
 export const removeKeyPairFromDb =  (dictName, keyToDelete) => {
 
@@ -68,6 +69,15 @@ export const removeKeyPairFromDb =  (dictName, keyToDelete) => {
         return setItem(dictName, ((obj) => { delete obj[keyToDelete]; return obj; })(getItem(dictName)));
     }
 };
+export const changeOrAddKeyPairFromDb = (dictName, key, value) => {
+    let dict = getItem(dictName);
+    if (dict == null) {
+        dict = {}
+    }
+    dict[key] = value;
+    setItem(dictName, dict);
+}
+
 // Storage functions for keys
 export const getKeys = async () => {
     getItem('keys');
